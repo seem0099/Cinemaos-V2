@@ -1,4 +1,4 @@
- import { useEffect } from "react";
+import { useEffect } from "react";
 
 const useSnapToNearest = () => {
   useEffect(() => {
@@ -32,7 +32,11 @@ const useSnapToNearest = () => {
         console.log("Nearest element:", nearestElement);
 
         // Clear previous outlines
-        elements.forEach((element) => (element.style.outline = "none"));
+        elements.forEach((element) => {
+          if (element instanceof HTMLElement) {
+            element.style.outline = "none";
+          }
+        });
 
         // Highlight the nearest element
         if (nearestElement instanceof HTMLElement) {
@@ -54,4 +58,4 @@ const useSnapToNearest = () => {
   }, []);
 };
 
-export default useSnapToNearest
+export default useSnapToNearest;
