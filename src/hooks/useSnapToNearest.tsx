@@ -3,9 +3,9 @@ import { useEffect } from "react";
 const useSnapToNearest = () => {
   useEffect(() => {
     const snapToNearest = (event: PointerEvent) => {
-      const elements = document.querySelectorAll<HTMLElement>(
+      const elements = Array.from(document.querySelectorAll<HTMLElement>(
         'button, a, [tabindex], [role="button"], [role="link"]'
-      );
+      ));
 
       let nearestElement: HTMLElement | null = null;
       let minDistance = Number.MAX_VALUE;
@@ -31,9 +31,7 @@ const useSnapToNearest = () => {
 
         // Remove outline from all elements
         elements.forEach((element) => {
-          if (element instanceof HTMLElement) {
-            element.style.outline = "none";
-          }
+          element.style.outline = "none";
         });
 
         nearestElement.style.outline = "2px solid blue";
