@@ -1,55 +1,68 @@
-// _app.tsx
-import { useEffect } from "react";
-import { useRouter } from "next/router";
-import NProgress from "nprogress";
+import "@/styles/globals.scss";
+import Layout from "@/components/Layout";
 import Head from "next/head";
 import { Toaster } from "sonner";
-import { GoogleAnalytics } from "@next/third-parties/google";
-import Layout from "@/components/Layout";
-import "../styles/globals.scss"; // Ensure your global styles are imported
+import "@/styles/checkbox.scss";
+import "react-tooltip/dist/react-tooltip.css";
+import { Tooltip } from "react-tooltip";
+import Router from "next/router";
+import { useState, useEffect } from "react";
+import NProgress from "nprogress";
+import "@/styles/nprogress.scss";
+import "react-loading-skeleton/dist/skeleton.css";
 
-import type { AppProps } from "next/app";
-import type { NextRouter } from "next/router";
-
-function MyApp({ Component, pageProps }: AppProps) {
-  const router: NextRouter = useRouter();
-
+export default function App({ Component, pageProps }: any) {
+  const [isLoading, setIsLoading] = useState(false);
+  NProgress.configure({ showSpinner: false });
+  // NProgress.configure({
+  //   template: '<div class="bar" role="bar"><div class="peg"></div></div>'
+  // });
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "/snapping.js";
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleRouteChangeStart = () => {
+    Router.events.on("routeChangeStart", (url) => {
+      setIsLoading(true);
       NProgress.start();
-    };
+    });
 
-    const handleRouteChangeComplete = () => {
-      NProgress.done();
-    };
+    Router.events.on("routeChangeComplete", (url) => {
+      setIsLoading(false);
+      NProgress.done(false);
+    });
 
-    router.events.on("routeChangeStart", handleRouteChangeStart);
-    router.events.on("routeChangeComplete", handleRouteChangeComplete);
-
-    return () => {
-      router.events.off("routeChangeStart", handleRouteChangeStart);
-      router.events.off("routeChangeComplete", handleRouteChangeComplete);
-    };
-  }, [router]);
-
-  const GTag: any = process.env.NEXT_PUBLIC_GT_MEASUREMENT_ID;
-
+    Router.events.on("routeChangeError", (url) => {
+      setIsLoading(false);
+    });
+  }, [Router]);
   return (
     <>
       <Head>
-        <title>Rive</title>
-        {/* Add your meta tags, links, and other head elements */}
+        <title>Cinemaos</title>
+        <meta name="description" content="Your Personal Streaming Hub" />
+        <meta
+          name="keywords"
+          content="movie, streaming, tv, rive, stream. movie app, tv shows, movie download"
+        />
+        <meta
+          name="google-site-verification"
+          content="J0QUeScQSxufPJqGTaszgnI35U2jN98vVWSOkVR4HrI"
+        />
+        <link rel="manifest" href="manifest.json" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#f4f7fe" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Rive" />
+        <link rel="icon" href="/images/logo512.png" />
+        <link rel="apple-touch-icon" href="/images/logo512.png" />
+        {/* <link rel="mask-icon" href="/images/logo512.svg" color="#f4f7fe" /> */}
+        <meta name="mobile-web-app-capable" content="yes" />
+        {/* <meta name="msapplication-TileColor" content="#f4f7fe" /> */}
+        <meta name="msapplication-tap-highlight" content="no" />
+        <link rel="shortcut icon" href="/images/logo512.png" />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3701741788853666"
+          crossOrigin="anonymous"
+        />
       </Head>
       <Layout>
         <Toaster
@@ -64,11 +77,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           }}
           position="top-center"
         />
+        <Tooltip id="tooltip" className="react-tooltip" />
         <Component {...pageProps} />
       </Layout>
-      <GoogleAnalytics gaId={GTag} />
     </>
   );
 }
-
-export default MyApp;
