@@ -32,13 +32,15 @@ const useSnapToNearest = () => {
         });
 
         // Highlight the nearest element and focus it
-        (nearestElement as HTMLElement).style.outline = "2px solid blue";
-        (nearestElement as HTMLElement).focus();
-        (nearestElement as HTMLElement).scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-          inline: "center",
-        });
+        if (nearestElement instanceof HTMLElement) {
+          nearestElement.style.outline = "2px solid blue";
+          nearestElement.focus();
+          nearestElement.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+            inline: "center",
+          });
+        }
       }
     };
 
