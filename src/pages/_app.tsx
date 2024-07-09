@@ -10,13 +10,14 @@ import { useState, useEffect } from "react";
 import NProgress from "nprogress";
 import "@/styles/nprogress.scss";
 import "react-loading-skeleton/dist/skeleton.css";
+import useSnapToNearest from "@/hooks/useSnapToNearest";
 
 export default function App({ Component, pageProps }: any) {
   const [isLoading, setIsLoading] = useState(false);
   NProgress.configure({ showSpinner: false });
-  // NProgress.configure({
-  //   template: '<div class="bar" role="bar"><div class="peg"></div></div>'
-  // });
+
+  useSnapToNearest();
+
   useEffect(() => {
     Router.events.on("routeChangeStart", (url) => {
       setIsLoading(true);
@@ -32,6 +33,7 @@ export default function App({ Component, pageProps }: any) {
       setIsLoading(false);
     });
   }, [Router]);
+
   return (
     <>
       <Head>
