@@ -3,12 +3,9 @@ import { useEffect } from "react";
 const useSnapToNearest = () => {
   useEffect(() => {
     const snapToNearest = (event: PointerEvent) => {
-      console.log("Pointer moved:", event.clientX, event.clientY);
-
       const elements = document.querySelectorAll<HTMLElement>(
         'button, a, [tabindex], [role="button"], [role="link"]'
       );
-      console.log("Interactive elements found:", elements.length);
 
       let nearestElement: HTMLElement | null = null;
       let minDistance = Number.MAX_VALUE;
@@ -29,16 +26,15 @@ const useSnapToNearest = () => {
       });
 
       if (nearestElement) {
-        console.log("Nearest element:", nearestElement);
-
-        // Clear previous outlines
+        // Remove outline from all elements
         elements.forEach((element) => {
-          (element as HTMLElement).style.outline = "none";
+          element.style.outline = "none";
         });
 
-        // Highlight the nearest element
-        (nearestElement as HTMLElement).style.outline = "2px solid blue";
-        (nearestElement as HTMLElement).scrollIntoView({
+        // Highlight the nearest element and focus it
+        nearestElement.style.outline = "2px solid blue";
+        nearestElement.focus();
+        nearestElement.scrollIntoView({
           behavior: "smooth",
           block: "center",
           inline: "center",
@@ -47,9 +43,11 @@ const useSnapToNearest = () => {
     };
 
     document.addEventListener("pointermove", snapToNearest);
+    document.addEventListener("click", snapToNearest);
 
     return () => {
       document.removeEventListener("pointermove", snapToNearest);
+      document.removeEventListener("click", snapToNearest);
     };
   }, []);
 };
