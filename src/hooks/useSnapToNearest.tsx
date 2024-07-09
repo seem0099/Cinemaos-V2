@@ -33,7 +33,7 @@ const useSnapToNearest = () => {
 
         // Clear previous outlines
         elements.forEach((element) => {
-          element.style.outline = "none";
+          (element as HTMLElement).style.outline = "none";
         });
 
         // Highlight the nearest element
