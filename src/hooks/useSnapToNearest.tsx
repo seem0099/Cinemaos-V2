@@ -27,22 +27,22 @@ const useSnapToNearest = () => {
 
       // Highlight the nearest element and focus it
       if (nearestElement) {
-        if (nearestElement instanceof HTMLElement) {
-          // Remove outline from all elements
-          elements.forEach((element) => {
-            if (element instanceof HTMLElement) {
-              element.style.outline = "none";
-            }
-          });
+        if (!(nearestElement instanceof HTMLElement)) return;
 
-          nearestElement.style.outline = "2px solid blue";
-          nearestElement.focus();
-          nearestElement.scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-            inline: "center",
-          });
-        }
+        // Remove outline from all elements
+        elements.forEach((element) => {
+          if (element instanceof HTMLElement) {
+            element.style.outline = "none";
+          }
+        });
+
+        nearestElement.style.outline = "2px solid blue";
+        nearestElement.focus();
+        nearestElement.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+          inline: "center",
+        });
       }
     };
 
