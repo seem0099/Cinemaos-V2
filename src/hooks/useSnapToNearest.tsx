@@ -33,20 +33,16 @@ const useSnapToNearest = () => {
 
         // Clear previous outlines
         elements.forEach((element) => {
-          if (element instanceof HTMLElement) {
-            element.style.outline = "none";
-          }
+          element.style.outline = "none";
         });
 
         // Highlight the nearest element
-        if (nearestElement instanceof HTMLElement) {
-          nearestElement.style.outline = "2px solid blue";
-          nearestElement.scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-            inline: "center",
-          });
-        }
+        (nearestElement as HTMLElement).style.outline = "2px solid blue";
+        (nearestElement as HTMLElement).scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+          inline: "center",
+        });
       }
     };
 
