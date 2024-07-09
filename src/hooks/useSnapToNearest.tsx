@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+ import { useEffect } from "react";
 
 const useSnapToNearest = () => {
   useEffect(() => {
@@ -35,12 +35,14 @@ const useSnapToNearest = () => {
         elements.forEach((element) => (element.style.outline = "none"));
 
         // Highlight the nearest element
-        (nearestElement as HTMLElement).style.outline = "2px solid blue"; 
-        (nearestElement as HTMLElement).scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-          inline: "center",
-        });
+        if (nearestElement instanceof HTMLElement) {
+          nearestElement.style.outline = "2px solid blue";
+          nearestElement.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+            inline: "center",
+          });
+        }
       }
     };
 
@@ -52,4 +54,4 @@ const useSnapToNearest = () => {
   }, []);
 };
 
-export default useSnapToNearest;
+export default useSnapToNearest
